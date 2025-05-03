@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Madam Jii! ❤️</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Confetti JS -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <style>
+    /* Global Styles */
+    :root {
+      --primary-color: #ff2d75;
+      --secondary-color: #ff0a5c;
+      --accent-color: #ffcc00;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff5f5;
+      color: #333;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      line-height: 1.6;
+    }
+
+    /* Sections */
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Welcome Section */
+    #welcome {
+      background: linear-gradient(135deg, #ffd6e7 0%, #ffcce0 100%);
+      animation: gradientShift 10s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    .welcome-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(3rem, 8vw, 5rem);
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      animation: fadeIn 1.5s ease-in-out, float 3s ease-in-out infinite;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .note {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      margin-bottom: 2rem;
+      animation: slideUp 1.5s ease-in-out;
+      font-weight: 300;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.8rem 2rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      animation: pulse 2s infinite;
+      z-index: 10;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover {
+      background-color: var(--secondary-color);
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn i {
+      font-size: 1.2rem;
+    }
+
+    /* Floating Elements */
+    .floating-elements {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: var(--primary-color);
+      transform: rotate(45deg);
+      opacity: 0.6;
+      animation: float 6s infinite ease-in-out;
+    }
+
+    .heart:before, .heart:after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart:before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart:after {
+      top: 0;
+      left: -10px;
+    }
+
+    .star {
+      position: absolute;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      animation: float 5s infinite ease-in-out, spin 4s linear infinite;
+      opacity: 0.8;
+    }
+
+    /* madam ji Section */
+    #madam ji {
+      background: linear-gradient(135deg, #e0f9ff 0%, #c2f0fb 100%);
+    }
+
+    .madam ji-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid var(--primary-color);
+      margin-bottom: 2rem;
+      animation: fadeIn 2s ease-in-out;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .madam ji-photo:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    .madam ji-text {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      animation: slideUp 1.5s ease-in-out;
+      background: rgba(255,255,255,0.7);
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    /* Memories Section */
+    #memories {
+      background: linear-gradient(135deg, #f5e0ff 0%, #e6ccff 100%);
+    }
+
+    .memory-note {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      margin-bottom: 2rem;
+      animation: fadeIn 2s ease-in-out;
+      font-family: 'Dancing Script', cursive;
+      color: var(--primary-color);
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+
+    .slideshow {
+      position: relative;
+      width: 100%;
+      padding-top: 100%; /* 1:1 Aspect Ratio */
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .slide-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(179, 136, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .slide-dot.active {
+      background: #b388ff;
+      transform: scale(1.2);
+    }
+
+    /* Outro Section */
+    #outro {
+      background: linear-gradient(135deg, #fff0e0 0%, #ffe6cc 100%);
+    }
+
+    .outro-text {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      max-width: 600px;
+      margin-bottom: 2rem;
+      animation: fadeIn 2s ease-in-out;
+      background: rgba(255,255,255,0.7);
+      padding: 1.5rem;
+      border-radius: 15px;
+    }
+
+    /* Cake Styles */
+    .cake-container {
+      margin: 2rem auto;
+      perspective: 1000px;
+    }
+
+    .cake {
+      position: relative;
+      width: 200px;
+      height: 150px;
+      cursor: pointer;
+      transition: transform 0.3s;
+      transform-style: preserve-3d;
+      margin: 0 auto;
+    }
+
+    .cake:hover {
+      transform: scale(1.05);
+    }
+
+    .cake-top {
+      position: absolute;
+      width: 200px;
+      height: 50px;
+      background: #f8c8dc;
+      border-radius: 50% 50% 0 0;
+      top: 0;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .cake-bottom {
+      position: absolute;
+      width: 180px;
+      height: 80px;
+      background: #f5a6c9;
+      border-radius: 0 0 20px 20px;
+      top: 40px;
+      left: 10px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .candle {
+      position: absolute;
+      width: 10px;
+      height: 30px;
+      background: #fff;
+      top: -20px;
+      left: 95px;
+      z-index: 2;
+    }
+
+    .flame {
+      position: absolute;
+      width: 15px;
+      height: 25px;
+      background: var(--accent-color);
+      border-radius: 50% 50% 20% 20%;
+      top: -45px;
+      left: 92.5px;
+      z-index: 3;
+      animation: flicker 0.5s infinite alternate;
+      box-shadow: 0 0 10px var(--accent-color);
+    }
+
+    .cake-message {
+      position: absolute;
+      bottom: -40px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    /* Celebration Styles */
+    .celebration {
+      display: none;
+      position: relative;
+      margin-top: 2rem;
+      animation: fadeIn 1s forwards;
+    }
+
+    .surprise-message {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      animation: bounce 0.5s infinite alternate;
+    }
+
+    .balloons {
+      position: relative;
+      height: 200px;
+    }
+
+    .balloon {
+      position: absolute;
+      width: 60px;
+      height: 80px;
+      border-radius: 50%;
+      animation: floatUp 5s infinite ease-in;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+      animation: confettiFall 3s linear forwards;
+    }
+
+    /* Music Control */
+    .music-control {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      background: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .music-control:hover {
+      transform: scale(1.1);
+    }
+
+    .music-control i {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-200px) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(500px) rotate(360deg); opacity: 0; }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      section {
+        padding: 1rem;
+      }
+      
+      .madam ji-photo {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .cake {
+        width: 160px;
+        height: 120px;
+      }
+      
+      .cake-top {
+        width: 160px;
+        height: 40px;
+      }
+      
+      .cake-bottom {
+        width: 140px;
+        height: 60px;
+        left: 10px;
+      }
+      
+      .candle {
+        left: 75px;
+      }
+      
+      .flame {
+        left: 72.5px;
+      }
+      
+      .surprise-message {
+        font-size: 2rem;
+      }
+    }
+
+    /* Hide sections initially */
+    section:not(#welcome) {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Auto-Play Music -->
+  <audio autoplay loop id="bg-music">
+    <source src="BestVoiceEverByK.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Music Control -->
+  <div class="music-control" onclick="toggleMusic()">
+    <i class="fas fa-music"></i>
+  </div>
+
+  <!-- Welcome Section -->
+  <section id="welcome">
+    <div class="floating-elements" id="floating-elements"></div>
+    
+    <h1 class="welcome-text">Happy Birthday madam ji! ❤️</h1>
+    <p class="note">Wishing you a day full of joy and happiness</p>
+    
+    <!-- Typewriter Effect -->
+    <p id="typewriter"></p>
+    
+    <button class="btn" onclick="nextSection('welcome', 'madam ji'); party()">
+      <i class="fas fa-gift"></i> Click for Surprise!
+    </button>
+  </section>
+
+  <!-- madam ji Section -->
+  <section id="madam ji">
+    <img src="image.2.png" alt="madam ji" class="madam ji-photo">
+    <p class="madam ji-text">
+      To the most amazing friend in the world, madam ji! Your smile lights up every room, 
+      and your kindness touches everyone around you. Here's to celebrating you today and always. 
+      Love you loads! ❤️
+    </p>
+    <button class="btn" onclick="nextSection('madam ji', 'memories')">
+      <i class="fas fa-images"></i> See Our Memories!
+    </button>
+  </section>
+
+  <!-- Memories Section -->
+  <section id="memories">
+    <p class="memory-note">Hey cutie - keep smiling like this everyday 🤗</p>
+    
+    <div class="slideshow-container">
+      <div class="slideshow">
+        <img src="image.3.png" class="slide active">
+        <img src="image.1.jpeg" class="slide">
+        <img src="image.4.png" class="slide">
+      </div>
+      <div class="slide-nav" id="slide-nav"></div>
+    </div>
+    
+    <button class="btn" onclick="nextSection('memories', 'outro')">
+      <i class="fas fa-star"></i> Final Surprise!
+    </button>
+  </section>
+
+  <!-- Outro Section -->
+  <section id="outro">
+    <p class="outro-text">
+      madam ji, thank you for being you—the most wonderful friend anyone could ask for. 
+      Wishing you the happiest birthday ever! May your year be filled with love, laughter, 
+      and all the happiness you deserve. 🎉❤️
+    </p>
+
+    <!-- Interactive Birthday Cake -->
+    <div class="cake-container">
+      <div class="cake" onclick="cutCake()">
+        <div class="cake-top"></div>
+        <div class="cake-bottom"></div>
+        <div class="candle"></div>
+        <div class="flame"></div>
+        <div class="cake-message">Click to cut the cake!</div>
+      </div>
+    </div>
+
+    <!-- Celebration Elements -->
+    <div class="celebration" id="celebration">
+      <h3 class="surprise-message">Happy Birthday madam ji!</h3>
+      <div class="balloons"></div>
+      <div class="confetti"></div>
+    </div>
+  </section>
+
+  <script>
+    // DOM Elements
+    const bgMusic = document.getElementById('bg-music');
+    const floatingElements = document.getElementById('floating-elements');
+    const slideNav = document.getElementById('slide-nav');
+    const celebration = document.getElementById('celebration');
+    
+    // Initialize variables
+    let isMusicPlaying = true;
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    
+    // Initialize page
+    window.addEventListener('DOMContentLoaded', () => {
+      createFloatingElements();
+      createSlideDots();
+      typeWriterEffect();
+      startSlideshow();
+    });
+    
+    // Create floating elements (hearts and stars)
+    function createFloatingElements() {
+      for (let i = 0; i < 15; i++) {
+        // Create hearts
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.top = Math.random() * 100 + '%';
+        heart.style.animationDelay = Math.random() * 5 + 's';
+        heart.style.opacity = Math.random() * 0.5 + 0.3;
+        heart.style.transform = `rotate(45deg) scale(${Math.random() * 0.5 + 0.5})`;
+        floatingElements.appendChild(heart);
+        
+        // Create stars
+        if (i % 3 === 0) {
+          const star = document.createElement('i');
+          star.className = 'star fas fa-star';
+          star.style.left = Math.random() * 100 + '%';
+          star.style.top = Math.random() * 100 + '%';
+          star.style.animationDelay = Math.random() * 5 + 's';
+          star.style.fontSize = (Math.random() * 1 + 0.8) + 'rem';
+          floatingElements.appendChild(star);
+        }
+      }
+    }
+    
+    // Create slide navigation dots
+    function createSlideDots() {
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'slide-dot';
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        slideNav.appendChild(dot);
+      }
+    }
+    
+    // Navigate to specific slide
+    function goToSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[index].classList.add('active');
+      
+      const dots = document.querySelectorAll('.slide-dot');
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[index].classList.add('active');
+      
+      currentSlide = index;
+    }
+    
+    // Auto-advance slideshow
+    function startSlideshow() {
+      setInterval(() => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        goToSlide(currentSlide);
+      }, 3000);
+    }
+    
+    // Typewriter effect
+    function typeWriterEffect() {
+      const text = "Dear madam ji, you're the best! ❤️";
+      let i = 0;
+      const speed = 100; // typing speed in ms
+      
+      function type() {
+        if (i < text.length) {
+          document.getElementById("typewriter").innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        }
+      }
+      type();
+    }
+    
+    // Toggle music playback
+    function toggleMusic() {
+      if (isMusicPlaying) {
+        bgMusic.pause();
+        document.querySelector('.music-control i').className = 'fas fa-volume-mute';
+      } else {
+        bgMusic.play();
+        document.querySelector('.music-control i').className = 'fas fa-music';
+      }
+      isMusicPlaying = !isMusicPlaying;
+    }
+    
+    // Navigate between sections
+    function nextSection(currentId, nextId) {
+      document.getElementById(currentId).style.display = 'none';
+      document.getElementById(nextId).style.display = 'flex';
+      document.getElementById(nextId).style.opacity = '1';
+      window.scrollTo(0, 0);
+    }
+    
+    // Confetti Effect
+    function party() {
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ff2d75', '#ffcc00', '#b388ff']
+      });
+    }
+    
+    // Cake Cutting Function
+    function cutCake() {
+      const cake = document.querySelector('.cake');
+      
+      // Animate cake cutting
+      cake.style.transform = 'rotateY(180deg)';
+      cake.style.opacity = '0.5';
+      cake.style.pointerEvents = 'none';
+      
+      // Show celebration
+      celebration.style.display = 'block';
+      createBalloons();
+      createConfetti();
+      party(); // Trigger confetti effect
+      
+      // Play birthday song snippet
+      const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-happy-birthday-balloons-619.mp3');
+      audio.play();
+    }
+
+    // Create floating balloons
+    function createBalloons() {
+      const balloons = document.querySelector('.balloons');
+      const colors = ['#ff2d75', '#ffcc00', '#b388ff', '#00ccff', '#ff9933'];
+      
+      for (let i = 0; i < 10; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.style.left = Math.random() * 80 + 10 + '%';
+        balloon.style.background = colors[i % colors.length];
+        balloon.style.animationDelay = i * 0.5 + 's';
+        balloons.appendChild(balloon);
+      }
+    }
+
+    // Create falling confetti
+    function createConfetti() {
+      const confettiContainer = document.querySelector('.confetti');
+      const colors = ['#ff2d75', '#ffcc00', '#b388ff', '#00ccff', '#ff9933'];
+      const shapes = ['circle', 'square', 'triangle'];
+      
+      for (let i = 0; i < 50; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.background = colors[i % colors.length];
+        piece.style.animationDelay = Math.random() * 2 + 's';
+        
+        if (shapes[i % 3] === 'circle') {
+          piece.style.borderRadius = '50%';
+        } else if (shapes[i % 3] === 'triangle') {
+          piece.style.width = '0';
+          piece.style.height = '0';
+          piece.style.borderLeft = '5px solid transparent';
+          piece.style.borderRight = '5px solid transparent';
+          piece.style.borderBottom = '10px solid ' + colors[i % colors.length];
+          piece.style.background = 'transparent';
+        }
+        
+        confettiContainer.appendChild(piece);
+      }
+    }
+  </script>
+</body>
+</html>
